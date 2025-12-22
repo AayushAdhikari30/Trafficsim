@@ -1,67 +1,63 @@
-
-#include<iostream>
-#include"Vehicle.h"
+#include <iostream>
+#include "Vehicle.h"
 #include "Queue.h"
+#include "TrafficLight.h"
+#include "TrafficManager.h"
 
 using namespace std;
 
-int main(){
-
-    cout<<"Traffic Simulation Started"<<endl<<endl;
-
-    Vehicle v1("ABC123",'A');
-    Vehicle v2("XYZ789",'B'); 
-    Vehicle v3("LMN456",'C'); 
-    Vehicle v4("DEF321",'A');
-
-    v1.display();
-    v2.display();
-    v3.display();
-    v4.display();
-
-
-       cout << "Testing getters for car1:" << endl;
-    cout << "  License: " << v1.getLicensePlate() << endl;
-    cout << "  Lane: " << v1.getLaneName() << endl;
-    cout << "  Entry Time: " << v1.getEntryTime() << endl;
+int main() {
+    cout << "========================================" << endl;
+    cout << "  Traffic Management System Test" << endl;
+    cout << "========================================" << endl << endl;
     
-
-    cout<< "Testing Queue Operations"<<endl;
-    Queue<Vehicle> laneA;
-    cout<<"Is lane A empty? " << (laneA.isEmpty() ? "Yes" : "NO") <<endl;
-    cout<<"lane A size: " << laneA.getSize() <<endl;
-    laneA.enqueue(v1);
-    laneA.enqueue(v4);
+    TrafficManager manager;
     
-    cout << endl << "lane A Size:" << laneA.getSize() << endl;
-
-    cout<<"In Lane A:"<<endl;
-    laneA.display();cout<<endl;
-
-     cout << "Vehicle at front (without removing)" << endl;
-     Vehicle frontVehicle = laneA.getFront();
-     frontVehicle.display();
-
-     //Removing vehicles one by one
-     Vehicle removed1 = laneA.dequeue();
-     cout << "Vehicle leaving: " ; removed1.display();
-     cout<< "Remaning in lane: " <<laneA.getSize() << endl <<endl;
-
-     Vehicle removed4 = laneA.dequeue();
-     cout << "Vehicle leaving: " ; removed4.display();
-     cout<< "Remaning in lane: " <<laneA.getSize() << endl <<endl;
-
-      cout << "Is Lane A empty now? " << (laneA.isEmpty() ? "YES - All vehicles passed!" : "NO") << endl << endl;
+    // Add some vehicles to different lanes
+    cout << "=== Adding Vehicles ===" << endl;
+    manager.addVehicle(Vehicle("AA1BB111", 'A'));
+    manager.addVehicle(Vehicle("AA2BB222", 'A'));
+    manager.addVehicle(Vehicle("BB1CC111", 'B'));
+    manager.addVehicle(Vehicle("BB2CC222", 'B'));
+    manager.addVehicle(Vehicle("BB3CC333", 'B'));
+    manager.addVehicle(Vehicle("CC1DD111", 'C'));
+    manager.addVehicle(Vehicle("DD1EE111", 'D'));
+    manager.addVehicle(Vehicle("DD2EE222", 'D'));
     
+    cout << endl;
     
-    cout << "  Queue Test PASSED!" << endl;
-   
-
-
-
-
-
-
-return 0;
-
-};
+    manager.display();
+    
+    // Process some cycles
+    cout << "\n\n=== Processing Traffic Cycles ===" << endl;
+    for (int i = 0; i < 4; i++) {
+        cout << "\n>>> Cycle " << (i+1) << " <<<" << endl;
+        manager.processCycle();
+    }
+    
+    manager.display();
+    
+    // Test priority mode
+    cout << "\n\n=== Testing Priority Mode ===" << endl;
+    cout << "Adding 12 vehicles to Lane A..." << endl;
+    for (int i = 0; i < 12; i++) {
+        manager.addVehicle(Vehicle("PRIORITY" + to_string(i), 'A'));
+    }
+    
+    manager.display();
+    
+    // Process until priority resolves
+    cout << "\n=== Processing Priority Lane ===" << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << "\n>>> Cycle " << (i+1) << " <<<" << endl;
+        manager.processCycle();
+    }
+    
+    manager.display();
+    
+    cout << "\n========================================" << endl;
+    cout << "  Test Complete!" << endl;
+    cout << "========================================" << endl;
+    
+    return 0;
+}
