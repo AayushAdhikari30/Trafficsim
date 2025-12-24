@@ -17,7 +17,7 @@ class TrafficManager {
 
         
       int totalVehiclesProcessed;
-      int getLaneSize(char lane) const;
+     
       int getVehiclesToProcess(char lane) const;
 
         TrafficLight trafficLight;
@@ -29,6 +29,7 @@ class TrafficManager {
 
 
     public:
+     int getLaneSize(char lane) const;
         TrafficManager();
 
         void addVehicle(const Vehicle& vehicle);

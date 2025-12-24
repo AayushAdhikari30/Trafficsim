@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src",
-                "C:/SDL3/include",
+                "C:\\SDL3\\include",
+                "C:\\SDL3_ttf\\include",
                 "C:/MinGW/include"
             ],
             "defines": [
