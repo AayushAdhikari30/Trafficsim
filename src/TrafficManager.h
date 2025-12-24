@@ -29,6 +29,7 @@ class TrafficManager {
 
 
     public:
+    char getCurrentLane() const;
      int getLaneSize(char lane) const;
         TrafficManager();
 

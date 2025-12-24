@@ -39,6 +39,9 @@ int TrafficManager::calculateAverageVehicles() const {
     return total / count;
 
 }
+char TrafficManager::getCurrentLane() const {
+    return trafficLight.getCurrentLane();
+}
 int TrafficManager::getVehiclesToProcess(char lane) const{
     Queue<Vehicle>& laneQueue = const_cast<TrafficManager*>(this)->getLaneQueue(lane);
     if (trafficLight.isPriorityMode() && lane =='A')

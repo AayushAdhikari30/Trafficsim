@@ -39,7 +39,7 @@ private:
 
             size_t commaPos = line.find(',');
             if (commaPos != std::string::npos) {
-                // FIX: Define 'plate' before using it
+               
                 std::string plate = line.substr(0, commaPos); 
                 char laneName = line[commaPos + 1];
                 manager.addVehicle(Vehicle(plate, laneName));
@@ -50,7 +50,7 @@ private:
         clearFile.close();
     }
 
-    // FIX: Standardized naming to pollAllLanes
+    
     void pollAllLanes() {
         readVehiclesFromFile("lane_A.txt", 'A');
         readVehiclesFromFile("lane_B.txt", 'B');
@@ -58,7 +58,7 @@ private:
         readVehiclesFromFile("lane_D.txt", 'D');
     }
 
-    // FIX: Use float for SDL3 coordinates and SDL_FRect
+    
     void drawRectangle(float x, float y, float w, float h, SDL_Color color) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_FRect rect = { x, y, w, h };
@@ -80,7 +80,7 @@ private:
 
     void drawText(const std::string& text, float x, float y, SDL_Color color) {
         if (!font) return;
-        // FIX: corrected .lenght to .length()
+       
         SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), text.length(), color);
         if (!surface) return;
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -145,14 +145,14 @@ private:
     void drawUI() {
         float centerX = SCREEN_WIDTH / 2.0f;
         float centerY = SCREEN_HEIGHT / 2.0f;
-        char currentLane = 'A'; // Logic to get current lane goes here
+      char currentLane = manager.getCurrentLane(); 
 
         drawTrafficLight('A', currentLane == 'A', centerX - 150, centerY - 150);
         drawTrafficLight('B', currentLane == 'B', centerX + 150, centerY - 150);
         drawTrafficLight('C', currentLane == 'C', centerX + 150, centerY + 150);
         drawTrafficLight('D', currentLane == 'D', centerX - 150, centerY + 150);
 
-        // NOTE: Ensure getLaneSize is PUBLIC in TrafficManager.h
+       
         drawVehicleQueue('A', manager.getLaneSize('A'), centerX - 100, centerY - 250, true);
         drawVehicleQueue('B', manager.getLaneSize('B'), centerX + 200, centerY - 100, false);
         drawVehicleQueue('C', manager.getLaneSize('C'), centerX + 100, centerY + 200, true);
