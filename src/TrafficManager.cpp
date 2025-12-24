@@ -90,7 +90,7 @@ void TrafficManager::processCycle() {
     }
     
    
-    TrafficLight::switchtoNextLane;
+    trafficLight.switchtoNextLane();
 }
 
     void TrafficManager::display() const {
