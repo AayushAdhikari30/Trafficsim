@@ -5,20 +5,24 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src",
-                "C:\\SDL3\\include",
-                "C:\\SDL3_ttf\\include",
-                "C:/MinGW/include",
-                "C:/SDL3/include/SDL3"
+                "C:/msys64/mingw64/include",
+                "C:/msys64/mingw64/include/SDL2"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:/MinGW/bin/g++.exe",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64"
+            "cppStandard": "c++11",
+            "intelliSenseMode": "windows-gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/msys64/mingw64/include"
+                ]
+            }
         }
     ],
     "version": 4

@@ -13,15 +13,17 @@ SDLRenderer::~SDLRenderer() {
 }
 
 bool SDLRenderer::init(const std::string& title) {
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
         return false;
     }
     
     window = SDL_CreateWindow(
         title.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
         windowWidth, windowHeight,
-        SDL_WINDOW_RESIZABLE
+        SDL_WINDOW_SHOWN
     );
     
     if (!window) {
@@ -29,7 +31,7 @@ bool SDLRenderer::init(const std::string& title) {
         return false;
     }
     
-    renderer = SDL_CreateRenderer(window, nullptr);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
         return false;
@@ -39,7 +41,7 @@ bool SDLRenderer::init(const std::string& title) {
 }
 
 void SDLRenderer::clear() {
-    setColor(30, 30, 40);  // Dark background
+    setColor(30, 30, 40);
     SDL_RenderClear(renderer);
 }
 
@@ -50,7 +52,7 @@ void SDLRenderer::present() {
 void SDLRenderer::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_EVENT_QUIT) {
+        if (event.type == SDL_QUIT) {
             isRunning = false;
         }
     }
@@ -65,11 +67,11 @@ void SDLRenderer::setColor(int r, int g, int b, int a) {
 }
 
 void SDLRenderer::drawRect(int x, int y, int w, int h, bool filled) {
-    SDL_FRect rect = {(float)x, (float)y, (float)w, (float)h};
+    SDL_Rect rect = {x, y, w, h};
     if (filled) {
         SDL_RenderFillRect(renderer, &rect);
     } else {
-        SDL_RenderRect(renderer, &rect);
+        SDL_RenderDrawRect(renderer, &rect);
     }
 }
 
@@ -79,7 +81,7 @@ void SDLRenderer::drawCircle(int centerX, int centerY, int radius) {
             int dx = radius - w;
             int dy = radius - h;
             if ((dx*dx + dy*dy) <= (radius * radius)) {
-                SDL_RenderPoint(renderer, centerX + dx, centerY + dy);
+                SDL_RenderDrawPoint(renderer, centerX + dx, centerY + dy);
             }
         }
     }
@@ -90,26 +92,23 @@ void SDLRenderer::drawRoad() {
     int centerY = windowHeight / 2;
     int roadWidth = 80;
     
-    
+    // Draw horizontal road (Lane A and C)
     setColor(60, 60, 70);
     drawRect(0, centerY - roadWidth/2, windowWidth, roadWidth);
     
-
+    // Draw vertical road (Lane B and D)
     drawRect(centerX - roadWidth/2, 0, roadWidth, windowHeight);
     
-   
+    // Draw center yellow lines
     setColor(255, 255, 0);
-    
+    // Horizontal center line
     for (int i = 0; i < windowWidth; i += 20) {
         drawRect(i, centerY - 2, 10, 4);
     }
+    // Vertical center line
     for (int i = 0; i < windowHeight; i += 20) {
         drawRect(centerX - 2, i, 4, 10);
     }
-    
-  
-    setColor(255, 255, 255);
-   
 }
 
 void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
@@ -118,18 +117,17 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     int lightRadius = 15;
     int offset = 60;
     
-    // Draw traffic lights for each lane
-   
+    // Lane A (left)
     int lightX_A = centerX - offset - 40;
     int lightY_A = centerY;
     if (currentLane == 'A') {
-        setColor(0, 255, 0);  
+        setColor(0, 255, 0);
     } else {
-        setColor(255, 0, 0);  
+        setColor(255, 0, 0);
     }
     drawCircle(lightX_A, lightY_A, lightRadius);
     
-   
+    // Lane B (top)
     int lightX_B = centerX;
     int lightY_B = centerY - offset - 40;
     if (currentLane == 'B') {
@@ -139,7 +137,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_B, lightY_B, lightRadius);
     
-    
+    // Lane C (right)
     int lightX_C = centerX + offset + 40;
     int lightY_C = centerY;
     if (currentLane == 'C') {
@@ -149,7 +147,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_C, lightY_C, lightRadius);
     
-  
+    // Lane D (bottom)
     int lightX_D = centerX;
     int lightY_D = centerY + offset + 40;
     if (currentLane == 'D') {
@@ -159,9 +157,9 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_D, lightY_D, lightRadius);
     
-    // Priority mode indicator
+    // Priority indicator
     if (isPriority) {
-        setColor(255, 165, 0); 
+        setColor(255, 165, 0);
         drawCircle(centerX, centerY, 25);
         setColor(255, 255, 0);
         drawCircle(centerX, centerY, 20);
@@ -177,10 +175,10 @@ void SDLRenderer::drawQueue(char lane, int queueSize) {
     int centerX = windowWidth / 2;
     int centerY = windowHeight / 2;
     
-    setColor(70, 130, 180);  
+    setColor(70, 130, 180);
     
     switch(lane) {
-        case 'A': 
+        case 'A':
             startX = 50;
             startY = centerY - 10;
             for (int i = 0; i < queueSize && i < 15; i++) {
@@ -188,7 +186,7 @@ void SDLRenderer::drawQueue(char lane, int queueSize) {
             }
             break;
             
-        case 'B':  
+        case 'B':
             startX = centerX - 10;
             startY = 50;
             for (int i = 0; i < queueSize && i < 15; i++) {
@@ -196,7 +194,7 @@ void SDLRenderer::drawQueue(char lane, int queueSize) {
             }
             break;
             
-        case 'C':  
+        case 'C':
             startX = windowWidth - 50 - carWidth;
             startY = centerY - 10;
             for (int i = 0; i < queueSize && i < 15; i++) {
@@ -204,7 +202,7 @@ void SDLRenderer::drawQueue(char lane, int queueSize) {
             }
             break;
             
-        case 'D':  
+        case 'D':
             startX = centerX - 10;
             startY = windowHeight - 50 - carWidth;
             for (int i = 0; i < queueSize && i < 15; i++) {
@@ -215,14 +213,12 @@ void SDLRenderer::drawQueue(char lane, int queueSize) {
 }
 
 void SDLRenderer::drawStats(int cycle, int totalProcessed, int priorityCount) {
-  
     setColor(20, 20, 30, 200);
     drawRect(10, 10, 250, 120);
     
     setColor(255, 255, 255);
-    drawRect(10, 10, 250, 120, false);  
+    drawRect(10, 10, 250, 120, false);
     
-   
     setColor(0, 255, 0);
     int barWidth = (cycle % 50) * 4;
     drawRect(20, 100, barWidth, 20);

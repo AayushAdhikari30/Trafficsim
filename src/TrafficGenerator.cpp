@@ -1,5 +1,4 @@
 #include "TrafficGenerator.h"
-#include "SDLRenderer.h"
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -111,26 +110,4 @@ void TrafficGenerator::run() {
             std::cerr << "Error writing Vehicle to file!" << std::endl;
         }
     }
-}
-void TrafficManager::renderToSDL(SDLRenderer& renderer) const {
-    renderer.clear();
-    
-   
-    renderer.drawRoad();
-    
-   
-    char currentLane = trafficLight.getCurrentLane();
-    bool isPriority = trafficLight.isPriorityMode();
-    renderer.drawTrafficLight(currentLane, isPriority);
-    
- 
-    renderer.drawQueue('A', laneA.getSize());
-    renderer.drawQueue('B', laneB.getSize());
-    renderer.drawQueue('C', laneC.getSize());
-    renderer.drawQueue('D', laneD.getSize());
-    
-   
-    renderer.drawStats(0, totalVehiclesProcessed, 0);
-    
-    renderer.present();
 }

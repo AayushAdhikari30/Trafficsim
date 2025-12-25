@@ -1,7 +1,8 @@
 #ifndef SDLRENDERER_H
 #define SDLRENDERER_H
+#define SDL_MAIN_HANDLED
 
-#include <SDL3/SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 
 class SDLRenderer {
@@ -22,13 +23,14 @@ public:
     void handleEvents();
     bool shouldClose() const;
     
-
+    // Drawing functions
     void drawRoad();
     void drawTrafficLight(char currentLane, bool isPriority);
     void drawQueue(char lane, int queueSize);
     void drawStats(int cycle, int totalProcessed, int priorityCount);
     void drawVehicle(int x, int y, char lane);
     
+    // Helper
     void setColor(int r, int g, int b, int a = 255);
     void drawCircle(int centerX, int centerY, int radius);
     void drawRect(int x, int y, int w, int h, bool filled = true);

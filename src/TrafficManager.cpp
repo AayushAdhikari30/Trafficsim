@@ -1,6 +1,7 @@
 #include "TrafficManager.h"
 #include "TrafficLight.h"
 #include "Vehicle.h"
+#include "SDLRenderer.h"
 #include  <iostream>
 
 TrafficManager::TrafficManager() : totalVehiclesProcessed(0) {
@@ -138,4 +139,26 @@ void TrafficManager::processCycle() {
         case 'D': return laneD.getSize();
         default: return 0;
     }
+}
+void TrafficManager::renderToSDL(SDLRenderer& renderer) const {
+    renderer.clear();
+    
+   
+    renderer.drawRoad();
+    
+   
+    char currentLane = trafficLight.getCurrentLane();
+    bool isPriority = trafficLight.isPriorityMode();
+    renderer.drawTrafficLight(currentLane, isPriority);
+    
+ 
+    renderer.drawQueue('A', laneA.getSize());
+    renderer.drawQueue('B', laneB.getSize());
+    renderer.drawQueue('C', laneC.getSize());
+    renderer.drawQueue('D', laneD.getSize());
+    
+   
+    renderer.drawStats(0, totalVehiclesProcessed, 0);
+    
+    renderer.present();
 }
