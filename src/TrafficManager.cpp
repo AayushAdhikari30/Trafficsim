@@ -67,6 +67,29 @@ if (!trafficLight.isPriorityMode() && laneASize > 10)
     }
 }
 
+void TrafficManager::loadVehiclesFromFiles() {
+    std::vector<Vehicle> newA, newB, newC, newD;
+    FileReader::readAllLaneFiles(newA, newB, newC, newD);
+    
+    // Add vehicles to queues
+    for (const auto& v : newA) {
+        laneA.enqueue(v);
+        std::cout << "Loaded: " << v.getLicensePlate() << " Lane A" << std::endl;
+    }
+    for (const auto& v : newB) {
+        laneB.enqueue(v);
+        std::cout << "Loaded: " << v.getLicensePlate() << " Lane B" << std::endl;
+    }
+    for (const auto& v : newC) {
+        laneC.enqueue(v);
+        std::cout << "Loaded: " << v.getLicensePlate() << " Lane C" << std::endl;
+    }
+    for (const auto& v : newD) {
+        laneD.enqueue(v);
+        std::cout << "Loaded: " << v.getLicensePlate() << " Lane D" << std::endl;
+    }
+}
+
 void TrafficManager::processCycle() {
 
     checkProiorityMode();

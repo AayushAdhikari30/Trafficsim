@@ -5,6 +5,7 @@
 #include "TrafficLight.h"
 #include "Vehicle.h"
 #include <vector>
+#include "FileReader.h" 
 
 using namespace std;
 
@@ -33,6 +34,8 @@ class TrafficManager {
      int getLaneSize(char lane) const;
         TrafficManager();
 
+
+        void loadVehiclesFromFiles();
         void addVehicle(const Vehicle& vehicle);
 
         void processCycle();

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include <windows.h>  // For Sleep function on Windows
+#include <windows.h>  
 
 TrafficGenerator::TrafficGenerator():
     randomEngine(std::time(nullptr)),
@@ -94,7 +94,7 @@ void TrafficGenerator::run() {
     while(true) {
         double waitTime = timeDistribution(randomEngine);
 
-        // Use Windows Sleep (milliseconds)
+        
         Sleep(static_cast<int>(waitTime * 1000));
 
         std::string plate = generateLicensePlate();
