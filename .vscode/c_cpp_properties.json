@@ -7,7 +7,8 @@
                 "${workspaceFolder}/src",
                 "C:\\SDL3\\include",
                 "C:\\SDL3_ttf\\include",
-                "C:/MinGW/include"
+                "C:/MinGW/include",
+                "C:/SDL3/include/SDL3"
             ],
             "defines": [
                 "_DEBUG",

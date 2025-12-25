@@ -14,7 +14,7 @@ bool TrafficLight::isGreen(char lane) const {
     return currentLane==lane;
 }
 
-void TrafficLight::switchtoNextLane(){
+void TrafficLight::switchToNextLane() { 
     if(priorityMode){
         currentLane='A';
         return; 

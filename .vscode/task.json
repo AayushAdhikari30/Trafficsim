@@ -2,49 +2,26 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Traffic Generator",
+            "label": "Build Traffic Simulator",
             "type": "shell",
             "command": "g++",
             "args": [
-                "${workspaceFolder}/src/TrafficGenerator.cpp",
+                "src/simulator.cpp",
+                "src/TrafficManager.cpp",
+                "src/TrafficLight.cpp",
+                "src/Vehicle.cpp",
                 "-o",
-                "${workspaceFolder}/build/TrafficGenerator.exe",
-                "-std=c++17",
-                "-Wall"
-            ],
-            "group": "build",
-            "problemMatcher": ["$gcc"]
-        },
-        {
-            "label": "Build Simulator",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "${workspaceFolder}/src/simulator.cpp",
-                "-o",
-                "${workspaceFolder}/build/Simulator.exe",
-                "-IC:/SDL2/include",
-                "-LC:/SDL2/lib",
-                "-lmingw32",
-                "-lSDL2main",
-                "-lSDL2",
-                "-lSDL2_ttf",
-                "-std=c++17",
-                "-Wall"
+                "build/simulator.exe",
+                "-Iinclude",
+                "-Lbuild",
+                "-lSDL3",
+                "-lSDL3_ttf"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
             "problemMatcher": ["$gcc"]
-        },
-        {
-            "label": "Build All",
-            "dependsOn": [
-                "Build Traffic Generator",
-                "Build Simulator"
-            ],
-            "group": "build"
         }
     ]
 }

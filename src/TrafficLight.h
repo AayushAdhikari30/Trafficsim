@@ -17,7 +17,7 @@ public:
 
     char getCurrentLane() const;
     bool isGreen(char lane) const;
-    void switchtoNextLane();
+    void switchToNextLane();
     void activatePriorityMode();
     void deactivatePriorityMode();
     bool isPriorityMode() const;
