@@ -9,6 +9,8 @@
 
 using namespace std;
 
+class SDLRenderer;
+
 class TrafficManager {
     private:
         Queue<Vehicle> laneA;
@@ -30,10 +32,11 @@ class TrafficManager {
 
 
     public:
+     void renderToSDL(SDLRenderer& renderer) const;
     char getCurrentLane() const;
      int getLaneSize(char lane) const;
         TrafficManager();
-
+      
 
         void loadVehiclesFromFiles();
         void addVehicle(const Vehicle& vehicle);
