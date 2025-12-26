@@ -27,7 +27,7 @@
 
 ##  Overview
 
-This project simulates a **4-way traffic junction** with intelligent traffic light management using **Queue data structures**. The system handles both normal and priority traffic conditions, implementing a fair vehicle dispatch system with visual simulation using SDL2.
+This project simulates a **4-way traffic junction** with intelligent traffic light management using **Queue data structures** in C++. The system handles both normal and priority traffic conditions, implementing a fair vehicle dispatch system with visual simulation using SDL2.
 
 ### Problem Statement
 
@@ -325,7 +325,7 @@ SDL Simulation View
 
 ##  Demo Video
 
-<video controls src="2025-12-26 20-15-08.mp4" title="Title"></video>
+[<video controls src="2025-12-26 20-15-08.mp4" title="Title"></video>]
 
 
 
