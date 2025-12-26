@@ -1,0 +1,92 @@
+# Compiled executables
+*.exe
+*.out
+*.app
+simulator
+simulator_sdl
+generator
+
+# Object files
+*.o
+*.obj
+*.lo
+*.slo
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+Debug/
+Release/
+x64/
+x86/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# MinGW / GCC
+*.d
+*.gch
+
+# Runtime files
+lane_A.txt
+lane_B.txt
+lane_C.txt
+lane_D.txt
+vehicles.data
+Vehicle.data
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*~
+*.bak
+*.swp
+*.tmp
+
+# IDE
+*.cbp
+*.layout
+*.depend
+
+# Build directories
+build/
+bin/
+obj/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Documentation build
+docs/_build/
