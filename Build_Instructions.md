@@ -1,6 +1,6 @@
 # Build Instructions - Traffic Simulator
 
-Complete compilation guide for Windows using MinGW and Visual Studio.
+Complete compilation guide for Windows using MinGW and Visual Studio In C++.
 
 ---
 
