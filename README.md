@@ -325,7 +325,7 @@ SDL Simulation View
 
 ##  Demo Video
 
-[Link to demonstration video/GIF]
+<video controls src="2025-12-26 20-15-08.mp4" title="Title"></video>
 
 
 
