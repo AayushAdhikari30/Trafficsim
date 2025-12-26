@@ -5,7 +5,7 @@
 **Student:** Aayush Adhikari  
 **Roll Number:** 02  
 **Instructor:** Rupak Ghimire  
-**Institution:** Herald College Kathmandu  
+**Institution:** Kathmandu University
 **Date:** December 2024
 
 ---
@@ -317,14 +317,17 @@ Processing 12 vehicles from Lane A
 ```
 
 ---
+## Screenshots
+SDL Simulation View
+![alt text]({90F8E499-1CB8-4C60-A597-45B5E8A1FD74}.png)
+![alt text]({D2BD8095-7058-449E-A9EB-5272E7694CCB}.png)
 
-## 🎥 Demo Video
+
+##  Demo Video
 
 [Link to demonstration video/GIF]
 
-*(Show both generator and simulator running simultaneously)*
 
----
 
 ##  References
 
