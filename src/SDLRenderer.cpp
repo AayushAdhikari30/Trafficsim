@@ -92,20 +92,20 @@ void SDLRenderer::drawRoad() {
     int centerY = windowHeight / 2;
     int roadWidth = 80;
     
-    // Draw horizontal road (Lane A and C)
+  
     setColor(60, 60, 70);
     drawRect(0, centerY - roadWidth/2, windowWidth, roadWidth);
     
-    // Draw vertical road (Lane B and D)
+ 
     drawRect(centerX - roadWidth/2, 0, roadWidth, windowHeight);
-    
-    // Draw center yellow lines
+
+   
     setColor(255, 255, 0);
-    // Horizontal center line
+    
     for (int i = 0; i < windowWidth; i += 20) {
         drawRect(i, centerY - 2, 10, 4);
     }
-    // Vertical center line
+
     for (int i = 0; i < windowHeight; i += 20) {
         drawRect(centerX - 2, i, 4, 10);
     }
@@ -117,7 +117,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     int lightRadius = 15;
     int offset = 60;
     
-    // Lane A (left)
+    
     int lightX_A = centerX - offset - 40;
     int lightY_A = centerY;
     if (currentLane == 'A') {
@@ -127,8 +127,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_A, lightY_A, lightRadius);
     
-    // Lane B (top)
-    int lightX_B = centerX;
+      int lightX_B = centerX;
     int lightY_B = centerY - offset - 40;
     if (currentLane == 'B') {
         setColor(0, 255, 0);
@@ -137,7 +136,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_B, lightY_B, lightRadius);
     
-    // Lane C (right)
+    
     int lightX_C = centerX + offset + 40;
     int lightY_C = centerY;
     if (currentLane == 'C') {
@@ -147,7 +146,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_C, lightY_C, lightRadius);
     
-    // Lane D (bottom)
+
     int lightX_D = centerX;
     int lightY_D = centerY + offset + 40;
     if (currentLane == 'D') {
@@ -157,7 +156,7 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     }
     drawCircle(lightX_D, lightY_D, lightRadius);
     
-    // Priority indicator
+   
     if (isPriority) {
         setColor(255, 165, 0);
         drawCircle(centerX, centerY, 25);
