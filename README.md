@@ -324,10 +324,7 @@ SDL Simulation View
 
 
 ##  Demo Video
-
-<video src="2025-12-26 20-15-08.mp4" controls title="Video showing Generator,Simulator">
-  Your browser does not support the video tag.
-</video>
+https://github.com/user-attachments/assets/d37d09eb-3cad-4873-b142-fd0feaf37c13
 
 
 
