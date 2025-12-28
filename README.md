@@ -6,7 +6,7 @@
 **Roll Number:** 02  
 **Instructor:** Rupak Ghimire  
 **Institution:** Kathmandu University
-**Date:** December 2024
+**Date:** December 2025
 
 ---
 
@@ -325,7 +325,9 @@ SDL Simulation View
 
 ##  Demo Video
 
-https://github.com/user-attachments/assets/d37d09eb-3cad-4873-b142-fd0feaf37c13
+<video src="2025-12-26 20-15-08.mp4" controls title="Video showing Generator,Simulator">
+  Your browser does not support the video tag.
+</video>
 
 
 
