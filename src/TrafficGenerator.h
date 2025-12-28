@@ -6,22 +6,22 @@
 #include <random>
 
 class TrafficGenerator {
-    private:
-        std::mt19937 randomEngine;
-        std::uniform_int_distribution<int> laneDistribution;
-        std::uniform_real_distribution<double> timeDistribution;
-        std::string generateLicensePlate();
-        
-        char selectRandomLane();
-        bool writeVehicleToFile(const std::string& plate,char lane);
+private:
+    std::mt19937 randomEngine;
+    std::uniform_int_distribution<int> roadDistribution;   
+    std::uniform_int_distribution<int> laneDistribution;    
+    std::uniform_real_distribution<double> timeDistribution;
+    
+  
+    std::string generateLicensePlate();
+    char selectRandomRoad();                             
+    int selectRandomLane();                                
+    bool writeVehicleToFile(const std::string& plate, char road, int lane);
 
-    public:
-        TrafficGenerator();
-
-        void run();
-
-        void generateSingleVehicle();
-
+public:
+    TrafficGenerator();
+    void run();
+    void generateSingleVehicle();
 };
 
 #endif

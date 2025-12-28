@@ -16,13 +16,20 @@ std::vector<Vehicle> FileReader::readLaneFile(const std::string& filename) {
     while (std::getline(file, line)) {
         if (line.empty()) continue;
         
+       
         
-        size_t commaPos = line.find(',');
-        if (commaPos != std::string::npos) {
-            std::string plate = line.substr(0, commaPos);
-            char lane = line[commaPos + 1];
+        
+        size_t firstComma = line.find(',');
+        size_t secondComma = line.find(',', firstComma + 1);
+        
+        if (firstComma != std::string::npos && secondComma != std::string::npos) {
             
-            vehicles.push_back(Vehicle(plate, lane));
+            std::string plate = line.substr(0, firstComma);
+            char road = line[firstComma + 1];
+            int lane = std::stoi(line.substr(secondComma + 1));
+            
+           
+            vehicles.push_back(Vehicle(plate, road, lane));
         }
     }
     
@@ -36,19 +43,20 @@ void FileReader::clearFile(const std::string& filename) {
     file.close();
 }
 
-//
+
 void FileReader::readAllLaneFiles(
     std::vector<Vehicle>& lane_A,
     std::vector<Vehicle>& lane_B,
     std::vector<Vehicle>& lane_C,
     std::vector<Vehicle>& lane_D
 ) {
+   
     lane_A = readLaneFile("lane_A.txt");
     lane_B = readLaneFile("lane_B.txt");
     lane_C = readLaneFile("lane_C.txt");
     lane_D = readLaneFile("lane_D.txt");
-
-    // Clear files after reading
+    
+    
     if (!lane_A.empty()) clearFile("lane_A.txt");
     if (!lane_B.empty()) clearFile("lane_B.txt");
     if (!lane_C.empty()) clearFile("lane_C.txt");

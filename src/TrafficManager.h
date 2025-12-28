@@ -12,46 +12,39 @@ using namespace std;
 class SDLRenderer;
 
 class TrafficManager {
-    private:
-        Queue<Vehicle> laneA;
-        Queue<Vehicle> laneB;
-        Queue<Vehicle> laneC;
-        Queue<Vehicle> laneD;
-
-        
-      int totalVehiclesProcessed;
-     
-      int getVehiclesToProcess(char lane) const;
-
-        TrafficLight trafficLight;
+private:
+    Queue<Vehicle> laneA;
+    Queue<Vehicle> laneB;
+    Queue<Vehicle> laneC;
+    Queue<Vehicle> laneD;
+    
+    int totalVehiclesProcessed;
+    int getVehiclesToProcess(char lane) const;
+    
+    TrafficLight trafficLight;
     Queue<Vehicle>& getLaneQueue(char lane);
-
+    
     int calculateAverageVehicles() const;
     int getVehicleCount(char lane) const;
     
+public:
+    TrafficManager();
+    
 
-
-    public:
-     void renderToSDL(SDLRenderer& renderer) const;
+    void renderToSDL(SDLRenderer& renderer) const;
+    
+   
     char getCurrentLane() const;
-     int getLaneSize(char lane) const;
-        TrafficManager();
-      
-
-        void loadVehiclesFromFiles();
-        void addVehicle(const Vehicle& vehicle);
-
-        void processCycle();
-
-        void checkProiorityMode();
-
-        void display() const;
-
-        void getLaneStatus(char lane) const;
-        
-        
+    int getLaneSize(char lane) const;
+    int getTotalProcessed() const;  
+    
+   
+    void loadVehiclesFromFiles();
+    void addVehicle(const Vehicle& vehicle);
+    void processCycle();
+    void checkProiorityMode();
+    void display() const;
+    void getLaneStatus(char lane) const;
 };
-
-
 
 #endif
