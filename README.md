@@ -325,8 +325,7 @@ SDL Simulation View
 
 ##  Demo Video
 
-<video src=""< controls src="2025-12-28 16-28-32.mp4" title="Title">
-  Your browser does not support the video tag.
+<video src="[user-images.githubusercontent.com](https://github.com/user-attachments/assets/1269744d-f1a6-47e2-b692-b18ef6e4c4b8)" controls="controls" muted="muted" loop="loop" playsinline="playsinline" style="max-width: 700px;">
 </video>
 
 
