@@ -13,13 +13,14 @@ private:
     int windowHeight;
     bool isRunning;
     
-    // Helper methods
+  
     void drawSingleLight(int x, int y, bool isGreen, int radius, int glowRadius);
+    void drawTrafficLightBox(int x, int y, bool isGreen);  
     void drawLaneLabels();
     void drawDigit(int digit, int x, int y, int size);
     
 public:
-    SDLRenderer(int width = 900, int height = 700);  // Larger window
+    SDLRenderer(int width = 900, int height = 700);
     ~SDLRenderer();
     
     bool init(const std::string& title);
@@ -28,7 +29,6 @@ public:
     void handleEvents();
     bool shouldClose() const;
     
-    // Drawing functions
     void drawRoad();
     void drawTrafficLight(char currentLane, bool isPriority);
     void drawQueue(char lane, int queueSize);
@@ -36,7 +36,6 @@ public:
     void drawVehicle(int x, int y, char lane);
     void drawNumber(int number, int x, int y, int size);
     
-    // Primitive drawing
     void setColor(int r, int g, int b, int a = 255);
     void drawCircle(int centerX, int centerY, int radius);
     void drawRect(int x, int y, int w, int h, bool filled = true);

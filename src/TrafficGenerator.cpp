@@ -107,7 +107,7 @@ void TrafficGenerator::generateSingleVehicle() {
     
     if (writeVehicleToFile(plate, road, lane)) {
         std::cout << "Generated: " << plate 
-                  << " → Road " << road 
+                  << " -> Road " << road 
                   << " Lane " << lane;
         
        
@@ -146,10 +146,10 @@ void TrafficGenerator::run() {
         if (writeVehicleToFile(plate, road, lane)) {
             vehicleCount++;
             std::cout << "[" << vehicleCount << "] " << plate 
-                      << " → Road " << road << "L" << lane;
+                      << " -> Road " << road << "L" << lane;
             
             if (lane == 2) {
-                std::cout << " ✓ MANAGED";
+                std::cout << " [MANAGED]";
             }
             std::cout << std::endl;
         }
