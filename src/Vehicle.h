@@ -7,6 +7,9 @@
 
 class Vehicle {
 private:
+    
+    bool turning = false;
+    int turnStage = 0;
     std::string licensePlate;
     char roadName;      
     int laneNumber;     
@@ -26,6 +29,9 @@ public:
     int getLaneNumber() const;
     std::time_t getEntryTime() const;
     char getLaneName() const;
+    int getTurnStage() const;
+void setTurnStage(int stage);
+
     
     float getX() const { return x; }
     float getY() const { return y; }

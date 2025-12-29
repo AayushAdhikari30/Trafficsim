@@ -3,10 +3,21 @@
 
 Vehicle::Vehicle(std::string plate, char road, int lane)
     : licensePlate(plate), roadName(road), laneNumber(lane),
-      x(0), y(0), targetX(0), targetY(0), 
-      isMoving(false), speed(100.0f)
+      x(0), y(0), targetX(0), targetY(0),
+      isMoving(false), speed(100.0f),
+      turnStage(0)
 {
     this->entryTime = std::time(nullptr);
+}
+
+
+
+int Vehicle::getTurnStage() const {
+    return turnStage;
+}
+
+void Vehicle::setTurnStage(int stage) {
+    turnStage = stage;
 }
 
 std::string Vehicle::getLicensePlate() const

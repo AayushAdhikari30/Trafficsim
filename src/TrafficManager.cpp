@@ -120,23 +120,7 @@ void TrafficManager::setVehicleWaitingPosition(Vehicle& vehicle, char road, int 
     vehicle.setSpeed(80.0f);
 }
 
-void TrafficManager::setVehicleMovingThroughIntersection(Vehicle& vehicle, char road) {
-    if (road == 'A') {
-        vehicle.setTarget(950, vehicle.getY());
-    }
-    else if (road == 'B') {
-        vehicle.setTarget(vehicle.getX(), 750);
-    }
-    else if (road == 'C') {
-        vehicle.setTarget(-50, vehicle.getY());
-    }
-    else if (road == 'D') {
-        vehicle.setTarget(vehicle.getX(), -50);
-    }
-    
-    vehicle.setMoving(true);
-    vehicle.setSpeed(120.0f); 
-}
+
 
 void TrafficManager::addVehicle(const Vehicle& vehicle) {
     char road = vehicle.getRoadName();
@@ -186,21 +170,31 @@ void TrafficManager::spawnQueuedVehicles() {
     }
 }
 
-void TrafficManager::updateVehiclePositions(float deltaTime) {
+void TrafficManager::updateVehiclePositions(float deltaTime)
+{
     char roads[] = {'A', 'B', 'C', 'D'};
-    
+
     for (char road : roads) {
         std::vector<AnimatedVehicle>& vehicles = getActiveVehicles(road);
-        
+
         for (auto& av : vehicles) {
             av.vehicle.updatePosition(deltaTime);
-            
-            if (av.hasPassedIntersection && av.vehicle.hasReachedTarget()) {
-                av.isActive = false;
+
+            if (av.vehicle.hasReachedTarget()) {
+
+                // continue turn
+                if (av.vehicle.getTurnStage() == 1) {
+                    setVehicleMovingThroughIntersection(av.vehicle, road);
+                }
+                else {
+                    av.isActive = false;
+                    av.hasPassedIntersection = true;
+                }
             }
         }
     }
 }
+
 
 void TrafficManager::cleanupInactiveVehicles() {
     char roads[] = {'A', 'B', 'C', 'D'};
@@ -380,4 +374,47 @@ void TrafficManager::renderToSDL(SDLRenderer& renderer) const {
     
     renderer.drawStats(0, totalVehiclesProcessed, laneA.getSize());
     renderer.present();
+}
+void TrafficManager::setVehicleMovingThroughIntersection(Vehicle& vehicle, char road)
+{
+    const int centerX = 450;
+    const int centerY = 350;
+
+    int lane = vehicle.getLaneNumber();
+
+    // STEP 1: always go to intersection center first
+    if (vehicle.getTurnStage() == 0) {
+        vehicle.setTarget(centerX, centerY);
+        vehicle.setMoving(true);
+        vehicle.setSpeed(120.0f);
+        vehicle.setTurnStage(1);
+        return;
+    }
+
+    // STEP 2: exit based on road + lane
+    // Lane 1 = LEFT, Lane 2 = STRAIGHT, Lane 3 = RIGHT
+
+    if (road == 'A') { // left → right
+        if (lane == 1) vehicle.setTarget(centerX, -50);      // LEFT → up
+        if (lane == 2) vehicle.setTarget(950, centerY);      // straight
+        if (lane == 3) vehicle.setTarget(centerX, 750);      // RIGHT → down
+    }
+    else if (road == 'B') { // top → bottom
+        if (lane == 1) vehicle.setTarget(950, centerY);      // LEFT → right
+        if (lane == 2) vehicle.setTarget(centerX, 750);      // straight
+        if (lane == 3) vehicle.setTarget(-50, centerY);      // RIGHT → left
+    }
+    else if (road == 'C') { // right → left
+        if (lane == 1) vehicle.setTarget(centerX, 750);      // LEFT → down
+        if (lane == 2) vehicle.setTarget(-50, centerY);      // straight
+        if (lane == 3) vehicle.setTarget(centerX, -50);      // RIGHT → up
+    }
+    else if (road == 'D') { // bottom → top
+        if (lane == 1) vehicle.setTarget(-50, centerY);      // LEFT → left
+        if (lane == 2) vehicle.setTarget(centerX, -50);      // straight
+        if (lane == 3) vehicle.setTarget(950, centerY);      // RIGHT → right
+    }
+
+    vehicle.setMoving(true);
+    vehicle.setSpeed(120.0f);
 }
