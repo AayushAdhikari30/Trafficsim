@@ -325,7 +325,7 @@ SDL Simulation View
 
 ##  Demo Video
 
-<video src=""< controls src="2025-12-28 16-28-32.mp4" title="Title">
+<video  controls src="2025-12-28 16-28-32.mp4" title="Title">
   Your browser does not support the video tag.
 </video>
 

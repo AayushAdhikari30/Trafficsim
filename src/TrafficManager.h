@@ -1,15 +1,22 @@
-#ifndef TrafficManager_H
-#define TrafficManager_H
+#ifndef TRAFFICMANAGER_H
+#define TRAFFICMANAGER_H
 
 #include "Queue.h"
-#include "TrafficLight.h"
 #include "Vehicle.h"
+#include "TrafficLight.h"
+#include "FileReader.h"
 #include <vector>
-#include "FileReader.h" 
-
-using namespace std;
 
 class SDLRenderer;
+
+struct AnimatedVehicle {
+    Vehicle vehicle;
+    bool isActive;
+    bool hasPassedIntersection;
+    
+    AnimatedVehicle(const Vehicle& v) 
+        : vehicle(v), isActive(true), hasPassedIntersection(false) {}
+};
 
 class TrafficManager {
 private:
@@ -18,33 +25,46 @@ private:
     Queue<Vehicle> laneC;
     Queue<Vehicle> laneD;
     
-    int totalVehiclesProcessed;
-    int getVehiclesToProcess(char lane) const;
+    std::vector<AnimatedVehicle> activeVehiclesA;
+    std::vector<AnimatedVehicle> activeVehiclesB;
+    std::vector<AnimatedVehicle> activeVehiclesC;
+    std::vector<AnimatedVehicle> activeVehiclesD;
     
     TrafficLight trafficLight;
-    Queue<Vehicle>& getLaneQueue(char lane);
+    int totalVehiclesProcessed;
+    
+    Queue<Vehicle>& getLaneQueue(char road);
+    std::vector<AnimatedVehicle>& getActiveVehicles(char road);
+    const std::vector<AnimatedVehicle>& getActiveVehicles(char road) const;
+    
+    void initializeVehiclePosition(Vehicle& vehicle, char road, int queuePosition);
+    void setVehicleWaitingPosition(Vehicle& vehicle, char road, int queuePosition);
+    void setVehicleMovingThroughIntersection(Vehicle& vehicle, char road);
     
     int calculateAverageVehicles() const;
-    int getVehicleCount(char lane) const;
+    void checkProiorityMode();
+    
+   
+    bool isFreeFlowLane(int lane) const;
     
 public:
     TrafficManager();
     
-
-    void renderToSDL(SDLRenderer& renderer) const;
-    
-   
-    char getCurrentLane() const;
-    int getLaneSize(char lane) const;
-    int getTotalProcessed() const;  
-    
-   
-    void loadVehiclesFromFiles();
     void addVehicle(const Vehicle& vehicle);
+    void spawnQueuedVehicles();
+    void updateVehiclePositions(float deltaTime);
+    void cleanupInactiveVehicles();
+    
     void processCycle();
-    void checkProiorityMode();
     void display() const;
-    void getLaneStatus(char lane) const;
+    void loadVehiclesFromFiles();
+    
+    char getCurrentLane() const;
+    int getVehiclesToProcess(char road) const;
+    int getLaneSize(char road) const;
+    int getTotalProcessed() const;
+    
+    void renderToSDL(SDLRenderer& renderer) const;
 };
 
 #endif

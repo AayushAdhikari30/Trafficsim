@@ -92,19 +92,10 @@ void SDLRenderer::drawLine(int x1, int y1, int x2, int y2) {
     SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 }
 
-
 void SDLRenderer::drawDigit(int digit, int x, int y, int size) {
     bool segments[10][7] = {
-        {1,1,1,1,1,1,0}, 
-        {0,1,1,0,0,0,0}, 
-        {1,1,0,1,1,0,1}, 
-        {1,1,1,1,0,0,1}, 
-        {0,1,1,0,0,1,1}, 
-        {1,0,1,1,0,1,1}, 
-        {1,0,1,1,1,1,1}, 
-        {1,1,1,0,0,0,0}, 
-        {1,1,1,1,1,1,1}, 
-        {1,1,1,1,0,1,1}  
+        {1,1,1,1,1,1,0}, {0,1,1,0,0,0,0}, {1,1,0,1,1,0,1}, {1,1,1,1,0,0,1}, {0,1,1,0,0,1,1},
+        {1,0,1,1,0,1,1}, {1,0,1,1,1,1,1}, {1,1,1,0,0,0,0}, {1,1,1,1,1,1,1}, {1,1,1,1,0,1,1}
     };
     
     if (digit < 0 || digit > 9) return;
@@ -136,25 +127,17 @@ void SDLRenderer::drawNumber(int number, int x, int y, int size) {
     }
 }
 
-
 void SDLRenderer::drawRoad() {
     int centerX = windowWidth / 2;
     int centerY = windowHeight / 2;
+    int roadWidth = 180;
+    int laneWidth = 60;
     
-   
-    int roadWidth = 180;      
-    int laneWidth = 60;       
-    
-  
-    setColor(50, 50, 50);  
-    
-   
+    setColor(50, 50, 50);
     drawRect(0, centerY - roadWidth/2, windowWidth, roadWidth);
-    
-    
     drawRect(centerX - roadWidth/2, 0, roadWidth, windowHeight);
     
-    setColor(255, 255, 255);  
+    setColor(255, 255, 255);
     
     for (int x = 10; x < centerX - roadWidth/2 - 10; x += 30) {
         drawRect(x, centerY - roadWidth/2 + laneWidth - 2, 20, 4);
@@ -176,7 +159,7 @@ void SDLRenderer::drawRoad() {
         drawRect(centerX - roadWidth/2 + 2*laneWidth - 2, y, 4, 20);
     }
     
-    setColor(55, 55, 55);  
+    setColor(55, 55, 55);
     drawRect(centerX - roadWidth/2, centerY - roadWidth/2, roadWidth, roadWidth);
     
     setColor(255, 255, 255);
@@ -186,29 +169,17 @@ void SDLRenderer::drawRoad() {
     
     for (int i = 0; i < roadWidth; i += stripWidth + stripGap) {
         drawRect(centerX - stopDistance, centerY - roadWidth/2 + i, 6, stripWidth);
-    }
-    
-    for (int i = 0; i < roadWidth; i += stripWidth + stripGap) {
         drawRect(centerX + stopDistance - 6, centerY - roadWidth/2 + i, 6, stripWidth);
-    }
-    
-    for (int i = 0; i < roadWidth; i += stripWidth + stripGap) {
         drawRect(centerX - roadWidth/2 + i, centerY - stopDistance, stripWidth, 6);
-    }
-    
-    for (int i = 0; i < roadWidth; i += stripWidth + stripGap) {
         drawRect(centerX - roadWidth/2 + i, centerY + stopDistance - 6, stripWidth, 6);
     }
     
-    setColor(220, 180, 0);  
-    
+    setColor(220, 180, 0);
     drawRect(0, centerY - roadWidth/2 - 2, windowWidth, 2);
     drawRect(0, centerY + roadWidth/2, windowWidth, 2);
-    
     drawRect(centerX - roadWidth/2 - 2, 0, 2, windowHeight);
     drawRect(centerX + roadWidth/2, 0, 2, windowHeight);
     
-
     drawLaneLabels();
 }
 
@@ -245,23 +216,11 @@ void SDLRenderer::drawTrafficLight(char currentLane, bool isPriority) {
     int centerX = windowWidth / 2;
     int centerY = windowHeight / 2;
     int offset = 120;
-    int lightSize = 22;
     
-    int posX_A = centerX - offset;
-    int posY_A = centerY;
-    drawTrafficLightBox(posX_A, posY_A, currentLane == 'A');
-    
-    int posX_B = centerX;
-    int posY_B = centerY - offset;
-    drawTrafficLightBox(posX_B, posY_B, currentLane == 'B');
-    
-    int posX_C = centerX + offset;
-    int posY_C = centerY;
-    drawTrafficLightBox(posX_C, posY_C, currentLane == 'C');
-    
-    int posX_D = centerX;
-    int posY_D = centerY + offset;
-    drawTrafficLightBox(posX_D, posY_D, currentLane == 'D');
+    drawTrafficLightBox(centerX - offset, centerY, currentLane == 'A');
+    drawTrafficLightBox(centerX, centerY - offset, currentLane == 'B');
+    drawTrafficLightBox(centerX + offset, centerY, currentLane == 'C');
+    drawTrafficLightBox(centerX, centerY + offset, currentLane == 'D');
     
     if (isPriority) {
         setColor(255, 165, 0);
@@ -285,7 +244,6 @@ void SDLRenderer::drawTrafficLightBox(int x, int y, bool isGreen) {
         drawCircle(x, y, lightRadius);
         setColor(100, 255, 100);
         drawCircle(x, y, lightRadius - 4);
-        
         setColor(80, 0, 0);
         drawCircle(x, y - 20, lightRadius - 2);
     } else {
@@ -293,113 +251,82 @@ void SDLRenderer::drawTrafficLightBox(int x, int y, bool isGreen) {
         drawCircle(x, y - 20, lightRadius);
         setColor(255, 100, 100);
         drawCircle(x, y - 20, lightRadius - 4);
-        
         setColor(0, 80, 0);
         drawCircle(x, y, lightRadius - 2);
     }
 }
 
-void SDLRenderer::drawSingleLight(int x, int y, bool isGreen, int radius, int glowRadius) {
-    drawTrafficLightBox(x, y, isGreen);
+void SDLRenderer::drawAnimatedVehicle(float x, float y, char road, int lane) {
+    int carWidth = 18;
+    int carHeight = 32;
+    
+    if (road == 'A') {
+        setColor(0, 120, 255);
+    } else if (road == 'B') {
+        setColor(0, 200, 50);
+    } else if (road == 'C') {
+        setColor(255, 140, 0);
+    } else if (road == 'D') {
+        setColor(220, 20, 220);
+    }
+    
+    if (road == 'A' || road == 'C') {
+        drawRect((int)x, (int)y, carWidth, carHeight);
+        
+        if (road == 'A') {
+            setColor(150, 200, 255);
+        } else if (road == 'B') {
+            setColor(150, 255, 150);
+        } else if (road == 'C') {
+            setColor(255, 200, 150);
+        } else {
+            setColor(255, 150, 255);
+        }
+        drawRect((int)x + 3, (int)y + 3, carWidth - 6, 10);
+        drawRect((int)x + 3, (int)y + carHeight - 13, carWidth - 6, 10);
+        
+        if (road == 'A') {
+            setColor(0, 80, 180);
+        } else if (road == 'B') {
+            setColor(0, 130, 30);
+        } else if (road == 'C') {
+            setColor(200, 90, 0);
+        } else {
+            setColor(150, 0, 150);
+        }
+        drawRect((int)x, (int)y, carWidth, carHeight, false);
+    } else {
+        drawRect((int)x, (int)y, carHeight, carWidth);
+        
+        if (road == 'A') {
+            setColor(150, 200, 255);
+        } else if (road == 'B') {
+            setColor(150, 255, 150);
+        } else if (road == 'C') {
+            setColor(255, 200, 150);
+        } else {
+            setColor(255, 150, 255);
+        }
+        drawRect((int)x + 3, (int)y + 3, 10, carWidth - 6);
+        drawRect((int)x + carHeight - 13, (int)y + 3, 10, carWidth - 6);
+        
+        if (road == 'A') {
+            setColor(0, 80, 180);
+        } else if (road == 'B') {
+            setColor(0, 130, 30);
+        } else if (road == 'C') {
+            setColor(200, 90, 0);
+        } else {
+            setColor(150, 0, 150);
+        }
+        drawRect((int)x, (int)y, carHeight, carWidth, false);
+    }
 }
 
 void SDLRenderer::drawQueue(char lane, int queueSize) {
-    int centerX = windowWidth / 2;
-    int centerY = windowHeight / 2;
-    int roadWidth = 180;
-    int laneWidth = 60;
-    
-    int carWidth = 18;
-    int carHeight = 32;
-    int spacing = 25;
-    
-    if (lane == 'A') {
-        int startX = 100;
-        int laneY = centerY - roadWidth/2 + laneWidth + (laneWidth - carHeight) / 2;
-        
-        for (int i = 0; i < queueSize && i < 15; i++) {
-            int x = startX + i * spacing;
-            
-            setColor(0, 120, 255);
-            drawRect(x, laneY, carWidth, carHeight);
-            
-            setColor(150, 200, 255);
-            drawRect(x + 3, laneY + 3, carWidth - 6, 10);
-            
-            setColor(150, 200, 255);
-            drawRect(x + 3, laneY + carHeight - 13, carWidth - 6, 10);
-            
-            setColor(0, 80, 180);
-            drawRect(x, laneY, carWidth, carHeight, false);
-        }
-    }
-    
-    else if (lane == 'B') {
-        int laneX = centerX - roadWidth/2 + laneWidth + (laneWidth - carHeight) / 2;
-        int startY = 100;
-        
-        for (int i = 0; i < queueSize && i < 15; i++) {
-            int y = startY + i * spacing;
-            
-            setColor(0, 200, 50);
-            drawRect(laneX, y, carHeight, carWidth);
-            
-            setColor(150, 255, 150);
-            drawRect(laneX + 3, y + 3, 10, carWidth - 6);
-            
-            setColor(150, 255, 150);
-            drawRect(laneX + carHeight - 13, y + 3, 10, carWidth - 6);
-            
-            setColor(0, 130, 30);
-            drawRect(laneX, y, carHeight, carWidth, false);
-        }
-    }
-    
-    else if (lane == 'C') {
-        int startX = windowWidth - 100 - carWidth;
-        int laneY = centerY - roadWidth/2 + laneWidth + (laneWidth - carHeight) / 2;
-        
-        for (int i = 0; i < queueSize && i < 15; i++) {
-            int x = startX - i * spacing;
-            
-            setColor(255, 140, 0);
-            drawRect(x, laneY, carWidth, carHeight);
-            
-            setColor(255, 200, 150);
-            drawRect(x + 3, laneY + 3, carWidth - 6, 10);
-            
-            setColor(255, 200, 150);
-            drawRect(x + 3, laneY + carHeight - 13, carWidth - 6, 10);
-            
-            setColor(200, 90, 0);
-            drawRect(x, laneY, carWidth, carHeight, false);
-        }
-    }
-    
-    else if (lane == 'D') {
-        int laneX = centerX - roadWidth/2 + laneWidth + (laneWidth - carHeight) / 2;
-        int startY = windowHeight - 100 - carWidth;
-        
-        for (int i = 0; i < queueSize && i < 15; i++) {
-            int y = startY - i * spacing;
-            
-            setColor(220, 20, 220);
-            drawRect(laneX, y, carHeight, carWidth);
-            
-            setColor(255, 150, 255);
-            drawRect(laneX + 3, y + 3, 10, carWidth - 6);
-            
-            setColor(255, 150, 255);
-            drawRect(laneX + carHeight - 13, y + 3, 10, carWidth - 6);
-            
-            setColor(150, 0, 150);
-            drawRect(laneX, y, carHeight, carWidth, false);
-        }
-    }
 }
 
 void SDLRenderer::drawStats(int cycle, int totalProcessed, int priorityCount) {
-    // Stats display completely removed - no top bar
 }
 
 void SDLRenderer::drawVehicle(int x, int y, char lane) {
@@ -407,4 +334,8 @@ void SDLRenderer::drawVehicle(int x, int y, char lane) {
     drawRect(x, y, 18, 32);
     setColor(100, 160, 200);
     drawRect(x + 3, y + 3, 12, 10);
+}
+
+void SDLRenderer::drawSingleLight(int x, int y, bool isGreen, int radius, int glowRadius) {
+    drawTrafficLightBox(x, y, isGreen);
 }

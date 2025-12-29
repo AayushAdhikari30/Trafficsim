@@ -11,22 +11,18 @@ TrafficGenerator::TrafficGenerator():
     timeDistribution(0.5, 2.0)    
 {}
 
-
 std::string TrafficGenerator::generateLicensePlate() {
     const char* provinces[] = {"BA", "GA", "LU", "PR", "KA", "SU", "SE"};
     
     int provinceIndex = randomEngine() % 7;
     std::string plate = provinces[provinceIndex];
     
-   
     plate += std::to_string((randomEngine() % 9) + 1);
     
-   
     const char* letters[] = {"PA", "KA", "JA", "MA", "CHA", "TA", "NA", "XX", "YY", "ZZ"};
     int letterIndex = randomEngine() % 10;
     plate += letters[letterIndex];
     
-   
     int number = randomEngine() % 10000;
     
     if (number < 10) {
@@ -45,8 +41,6 @@ std::string TrafficGenerator::generateLicensePlate() {
     return plate;
 }
 
-
-
 char TrafficGenerator::selectRandomRoad() {
     int random = roadDistribution(randomEngine);
     
@@ -60,23 +54,25 @@ char TrafficGenerator::selectRandomRoad() {
         return 'D';
 }
 
-
 int TrafficGenerator::selectRandomLane() {
     int random = randomEngine() % 100;
     
-    if (random < 25)       
+    // Lane distribution:
+    // Lane 1 (Right turn - FREE): 20%
+    // Lane 2 (Straight - CONTROLLED): 60%
+    // Lane 3 (Left turn - FREE): 20%
+    
+    if (random < 20)        // 0-19: Lane 1 (Right turn)
         return 1;
-    else if (random < 85)   
+    else if (random < 80)   // 20-79: Lane 2 (Straight)
         return 2;
-    else                    
+    else                    // 80-99: Lane 3 (Left turn)
         return 3;
 }
-
 
 bool TrafficGenerator::writeVehicleToFile(const std::string& plate, char road, int lane) {
     std::string filename;
     
-
     switch(road) {
         case 'A': filename = "lane_A.txt"; break;
         case 'B': filename = "lane_B.txt"; break;
@@ -85,20 +81,18 @@ bool TrafficGenerator::writeVehicleToFile(const std::string& plate, char road, i
         default: return false;
     }
     
-      std::ofstream file(filename, std::ios::app);
+    std::ofstream file(filename, std::ios::app);
     
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << filename << std::endl;
         return false;
     }
     
-    
     file << plate << "," << road << "," << lane << std::endl;
     file.close();
     
     return true;
 }
-
 
 void TrafficGenerator::generateSingleVehicle() {
     std::string plate = generateLicensePlate();
@@ -110,11 +104,12 @@ void TrafficGenerator::generateSingleVehicle() {
                   << " -> Road " << road 
                   << " Lane " << lane;
         
-       
-        if (lane == 2) {
-            std::cout << " [MANAGED]";
+        if (lane == 1) {
+            std::cout << " [🟢 FREE RIGHT]";
+        } else if (lane == 2) {
+            std::cout << " [🔴 CONTROLLED]";
         } else if (lane == 3) {
-            std::cout << " [FREE LEFT]";
+            std::cout << " [🟢 FREE LEFT]";
         }
         std::cout << std::endl;
     }
@@ -123,21 +118,24 @@ void TrafficGenerator::generateSingleVehicle() {
     }
 }
 
-
 void TrafficGenerator::run() {
     int vehicleCount = 0;
     
-    std::cout << "\n=== Traffic Generator Started ===" << std::endl;
-    std::cout << "Generating vehicles for 3-lane system..." << std::endl;
-    std::cout << "Road A (Priority): 40% of traffic" << std::endl;
-    std::cout << "Lane 2 (Managed): 60% of vehicles" << std::endl;
-    std::cout << "Press Ctrl+C to stop\n" << std::endl;
+    std::cout << "\n╔════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   Traffic Generator Started (3-Lane)      ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n📊 Traffic Distribution:" << std::endl;
+    std::cout << "   Road A (Priority): 40% of traffic" << std::endl;
+    std::cout << "   Roads B, C, D:     20% each" << std::endl;
+    std::cout << "\n🛣️  Lane Distribution:" << std::endl;
+    std::cout << "   Lane 1 (Right):  20% - 🟢 FREE FLOW" << std::endl;
+    std::cout << "   Lane 2 (Straight): 60% - 🔴 CONTROLLED" << std::endl;
+    std::cout << "   Lane 3 (Left):   20% - 🟢 FREE FLOW" << std::endl;
+    std::cout << "\nPress Ctrl+C to stop\n" << std::endl;
     
     while (true) {
-        
         double waitTime = timeDistribution(randomEngine);
         Sleep(static_cast<int>(waitTime * 1000));
-        
         
         std::string plate = generateLicensePlate();
         char road = selectRandomRoad();
@@ -146,10 +144,14 @@ void TrafficGenerator::run() {
         if (writeVehicleToFile(plate, road, lane)) {
             vehicleCount++;
             std::cout << "[" << vehicleCount << "] " << plate 
-                      << " -> Road " << road << "L" << lane;
+                      << " → Road " << road << "L" << lane;
             
-            if (lane == 2) {
-                std::cout << " [MANAGED]";
+            if (lane == 1) {
+                std::cout << " 🟢R";  // Right turn
+            } else if (lane == 2) {
+                std::cout << " 🔴S";  // Straight (controlled)
+            } else {
+                std::cout << " 🟢L";  // Left turn
             }
             std::cout << std::endl;
         }
