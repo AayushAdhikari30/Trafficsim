@@ -257,69 +257,55 @@ void SDLRenderer::drawTrafficLightBox(int x, int y, bool isGreen) {
 }
 
 void SDLRenderer::drawAnimatedVehicle(float x, float y, char road, int lane) {
-    int carWidth = 18;
-    int carHeight = 32;
+    int carWidth = 20;
+    int carHeight = 35;
     
+    // Determine car color based on road
+    int bodyR, bodyG, bodyB;
     if (road == 'A') {
-        setColor(0, 120, 255);
+        bodyR = 0; bodyG = 120; bodyB = 255;  // Blue
     } else if (road == 'B') {
-        setColor(0, 200, 50);
+        bodyR = 0; bodyG = 200; bodyB = 50;   // Green
     } else if (road == 'C') {
-        setColor(255, 140, 0);
-    } else if (road == 'D') {
-        setColor(220, 20, 220);
+        bodyR = 255; bodyG = 140; bodyB = 0;  // Orange
+    } else {
+        bodyR = 220; bodyG = 20; bodyB = 220; // Purple
     }
     
-    if (road == 'A' || road == 'C') {
-        drawRect((int)x, (int)y, carWidth, carHeight);
-        
-        if (road == 'A') {
-            setColor(150, 200, 255);
-        } else if (road == 'B') {
-            setColor(150, 255, 150);
-        } else if (road == 'C') {
-            setColor(255, 200, 150);
-        } else {
-            setColor(255, 150, 255);
-        }
-        drawRect((int)x + 3, (int)y + 3, carWidth - 6, 10);
-        drawRect((int)x + 3, (int)y + carHeight - 13, carWidth - 6, 10);
-        
-        if (road == 'A') {
-            setColor(0, 80, 180);
-        } else if (road == 'B') {
-            setColor(0, 130, 30);
-        } else if (road == 'C') {
-            setColor(200, 90, 0);
-        } else {
-            setColor(150, 0, 150);
-        }
-        drawRect((int)x, (int)y, carWidth, carHeight, false);
-    } else {
-        drawRect((int)x, (int)y, carHeight, carWidth);
-        
-        if (road == 'A') {
-            setColor(150, 200, 255);
-        } else if (road == 'B') {
-            setColor(150, 255, 150);
-        } else if (road == 'C') {
-            setColor(255, 200, 150);
-        } else {
-            setColor(255, 150, 255);
-        }
-        drawRect((int)x + 3, (int)y + 3, 10, carWidth - 6);
-        drawRect((int)x + carHeight - 13, (int)y + 3, 10, carWidth - 6);
-        
-        if (road == 'A') {
-            setColor(0, 80, 180);
-        } else if (road == 'B') {
-            setColor(0, 130, 30);
-        } else if (road == 'C') {
-            setColor(200, 90, 0);
-        } else {
-            setColor(150, 0, 150);
-        }
-        drawRect((int)x, (int)y, carHeight, carWidth, false);
+    // Draw car body (rounded rectangle approximation)
+    setColor(bodyR, bodyG, bodyB);
+    drawRect((int)x + 2, (int)y, carWidth - 4, carHeight);  // Main body
+    
+    // Draw car roof/windows
+    setColor(bodyR + 50, bodyG + 50, bodyB + 50);  // Lighter shade
+    drawRect((int)x + 4, (int)y + 3, carWidth - 8, 12);  // Roof
+    
+    // Draw windows
+    setColor(200, 220, 255);  // Light blue for windows
+    drawRect((int)x + 5, (int)y + 4, carWidth - 10, 4);  // Front window
+    drawRect((int)x + 5, (int)y + 10, carWidth - 10, 4); // Rear window
+    
+    // Draw wheels
+    setColor(30, 30, 30);  // Dark gray for tires
+    drawCircle((int)x + 5, (int)y + carHeight - 3, 3);   // Front wheel
+    drawCircle((int)x + carWidth - 5, (int)y + carHeight - 3, 3); // Rear wheel
+    
+    // Draw wheel rims
+    setColor(150, 150, 150);  // Light gray for rims
+    drawCircle((int)x + 5, (int)y + carHeight - 3, 1);   // Front rim
+    drawCircle((int)x + carWidth - 5, (int)y + carHeight - 3, 1); // Rear rim
+    
+    // Draw headlights/taillights
+    if (road == 'A' || road == 'C') {  // Horizontal roads
+        setColor(255, 255, 200);  // Yellow for headlights
+        drawRect((int)x + carWidth - 2, (int)y + 5, 2, 3);  // Front light
+        setColor(255, 0, 0);  // Red for taillights
+        drawRect((int)x, (int)y + 5, 2, 3);  // Rear light
+    } else {  // Vertical roads
+        setColor(255, 255, 200);  // Yellow for headlights
+        drawRect((int)x + 5, (int)y, 3, 2);  // Front light
+        setColor(255, 0, 0);  // Red for taillights
+        drawRect((int)x + 5, (int)y + carHeight - 2, 3, 2);  // Rear light
     }
 }
 

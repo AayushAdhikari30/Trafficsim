@@ -319,15 +319,12 @@ Processing 12 vehicles from Lane A
 ---
 ## Screenshots
 SDL Simulation View
-![alt text]({84688952-3188-478B-B01C-E8F168D03ED9}.png)
-![alt text]({880267A7-0047-49CA-BDC8-9C4DE854D76D}.png)
-
+![alt text]({813AAC8F-7882-4BCB-B4A1-F5308720A6A4}.png)
+![alt text]({FBCE4BA6-817B-447E-B123-BDB164FCF545}.png)
 
 ##  Demo Video
+<video controls src="2025-12-30 12-38-18.mp4" title="Title"></video>
 
-<video src=""< controls src="2025-12-28 16-28-32.mp4" title="Title">
-  Your browser does not support the video tag.
-</video>
 
 
 

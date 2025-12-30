@@ -20,6 +20,7 @@ private:
     float speed;           
     bool isMoving;           
     float targetX, targetY;  
+    bool isAtStop = false;
     
 public:
     Vehicle(std::string plate, char road, int lane);
@@ -41,6 +42,8 @@ void setTurnStage(int stage);
     bool getIsMoving() const { return isMoving; }
     float getSpeed() const { return speed; }
     void setSpeed(float s) { speed = s; }
+    void setAtStop(bool atStop) { isAtStop = atStop; }
+    bool getAtStop() const { return isAtStop; }
     
     void updatePosition(float deltaTime);
     bool hasReachedTarget() const;
